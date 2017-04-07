@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Name: Troy C. Breijaert
-# Student number:   11587407
+# Student number: 11587407
 '''
 This script scrapes IMDB and outputs a CSV file with highest rated tv series.
 '''
@@ -30,12 +30,16 @@ def extract_tvseries(dom):
     # UNICODE CHARACTERS AND SIMPLY LEAVE THEM OUT OF THE OUTPUT.
     shows = []
     showinfo = {}
+
     # gets the title, rating, genre, actors and runtime, puts those in a dict
     # and puts the dict in an array
+
     for e in dom.by_tag("div.lister-item-content"):
+        # gets the actor names
         for a in e.by_tag("p"):
             if "Stars" in a.content:
                 info = plaintext(a.content).encode("utf-8").strip("Stars:")
+        # gets the title, rating, genre and runtime
         title = plaintext((e.by_tag("a")[:1])[0].content)
         rating = plaintext((e.by_tag("strong"))[0].content)
         genre =  plaintext((e.by_class("genre"))[0].content)
@@ -60,12 +64,11 @@ def save_csv(f, tvseries):
     Output a CSV file containing highest rated TV-series.
     '''
     writer = csv.writer(f)
+    writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
+
     # i know i'm using list comprehension here and a for-loop above,
     # blame imbd for not naming their list of actors something like
     # class="actors" instead they chose to name it class=""
-
-    writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
-
     [writer.writerow([info["title"].encode('utf-8'), info["rating"],
                     info["genre"], info["actors"], info["runtime"]])
                     for info in extract_tvseries(dom)]
