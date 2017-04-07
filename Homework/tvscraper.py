@@ -61,11 +61,15 @@ def save_csv(f, tvseries):
     Output a CSV file containing highest rated TV-series.
     '''
     writer = csv.writer(f)
-    # i know i'm using list comprehension here and a for-loop above, blame imbd for not naming their list of actors something like class="actors"
-    # instead they chose to name it class=""
+    # i know i'm using list comprehension here and a for-loop above,
+    # blame imbd for not naming their list of actors something like
+    # class="actors" instead they chose to name it class=""
 
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
-    [writer.writerow([info["title"].encode('utf-8'), info["rating"], info["genre"], info["actors"], info["runtime"]]) for info in extract_tvseries(dom)]
+
+    [writer.writerow([info["title"].encode('utf-8'), info["rating"],
+                    info["genre"], info["actors"], info["runtime"]])
+                    for info in extract_tvseries(dom)]
 
 
 if __name__ == '__main__':
