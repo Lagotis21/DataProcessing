@@ -37,18 +37,18 @@ def extract_tvseries(dom):
         for a in e.by_tag("p"):
             if "Stars" in a.content:
                 info = plaintext(a.content).encode("utf-8").strip("Stars:")
-                title = plaintext((e.by_tag("a")[:1])[0].content)
-                rating = plaintext((e.by_tag("strong"))[0].content)
-                genre =  plaintext((e.by_class("genre"))[0].content)
-                actors = info
-                runtime =  plaintext((e.by_class("runtime"))[0].content.strip("min"))
+        title = plaintext((e.by_tag("a")[:1])[0].content)
+        rating = plaintext((e.by_tag("strong"))[0].content)
+        genre =  plaintext((e.by_class("genre"))[0].content)
+        actors = info
+        runtime =  plaintext((e.by_class("runtime"))[0].content.strip("min"))
 
         # creates a dict with the different values
         showinfo = {
                     "title": title, "rating": rating,
                     "genre": genre, "actors": actors,
                     "runtime": runtime,
-                    }
+                   }
         # appends the info into the shows array
         shows.append(showinfo)
 
