@@ -1,0 +1,17 @@
+******************************
+* Naam: Troy C. Breijaert
+* Studentnummer: 11587407
+******************************
+
+Explain the difference between the == operator and the === operator.
+* '==' is an equality operator that compares values that aren't strictly the same type, using type conversion
+* so it can compare a integer with a bollean. whilst the '===' operator is a strict comparison comparing only values of the same type
+
+Explain what a closure is. (Note that JavaScript programs use closures very often.)
+* A closure is a function that has access to the parent scope, even after the parent function has closed.
+
+Explain what higher order functions are.
+*
+
+Explain what a query selector is and give an example line of JavaScript that uses a query selector
+*
