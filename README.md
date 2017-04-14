@@ -1,3 +1,13 @@
+## https://lagotis21.github.io/DataProcessing/
+^ website link, with the links to each assignment folder
+
+## Oh its a beautifull day for pie
+
+
+
+
+## rest is just some standard github pages stuff
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/Lagotis21/DataProcessing/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
