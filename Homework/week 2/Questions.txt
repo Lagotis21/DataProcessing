@@ -11,7 +11,10 @@ Explain what a closure is. (Note that JavaScript programs use closures very ofte
 * A closure is a function that has access to the parent scope, even after the parent function has closed.
 
 Explain what higher order functions are.
-*
+* a higher order function is a function that can take another function as an argument or return a function as a result.
 
 Explain what a query selector is and give an example line of JavaScript that uses a query selector
-*
+* a query selector method returns the first element that matches a specificed CSS selector in a document.
+* for example to get the first element in a document with the class="bob" you would use
+* document.querySelector(".bob"); to get the first element with class="bob"
+* to get all elements with class="bob" you would use querySelectorAll();
