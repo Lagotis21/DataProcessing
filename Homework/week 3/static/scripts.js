@@ -44,7 +44,7 @@ function lambda(){
     chart.call(tip);
 
     // gemerate amd display barchart data
-    d3.json("KNMI.JSON", function(error, data) {
+    d3.json("static/KNMI.json", function(error, data) {
       x.domain(data.map(function(d) { return d.name; }));
       y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
