@@ -51,7 +51,7 @@ function lambda(){
     svg.call(tip);
 
     // load data
-    d3.csv("../static/data.csv", function(error, data) {
+    d3.csv("./static/data.csv", function(error, data) {
         if (error) throw error;
 
         data.forEach(function(d) {
