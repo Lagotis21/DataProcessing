@@ -8,8 +8,8 @@ import json
 Json = []
 
 # opens files
-csvFile = open('../DataProcessing/Homework/week 5/Data/KNMI2010.csv', 'r')
-jsonFile = open('../DataProcessing/Homework/week 5/Data/KNMI2010.json', 'w')
+csvFile = open('../DataProcessing/Homework/week 5/Data/KNMI2011.csv', 'r')
+jsonFile = open('../DataProcessing/Homework/week 5/Data/KNMI2011.json', 'w')
 
 # reads the CSV file skipping over #
 reader = csv.reader(filter(lambda row: row[0]!='#', csvFile))
