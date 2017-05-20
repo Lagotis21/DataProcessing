@@ -1,4 +1,4 @@
-
+Globalname = "Default"
 function lambda() {
      queue()
         .defer(function worldmap() {
@@ -133,12 +133,80 @@ function lambda() {
          })
 
          .defer(function drawbarchart() {
+             // determins margins of the field
+             var margin = {top: 20, right: 50, bottom: 500, left: 40},
+                 width = 1000 - margin.left - margin.right,
+                 height = 1000 - margin.top - margin.bottom;
+
+             // smakes x-axis scaleable (remove .1 and you get one blob)
+             var x = d3.scale.ordinal()
+                 .rangeRoundBands([0, width], .1);
+
+             // makes y axis scaleable
+             var y = d3.scale.linear()
+                 .range([height, 0]);
+
+             // scales x axis
+             var xAxis = d3.svg.axis()
+                 .scale(x)
+                 .orient("bottom");
+
+             // scales y axis
+             var yAxis = d3.svg.axis()
+                 .scale(y)
+                 .orient("left");
+
+             // gives chart its attributes
+             var chart = d3.select(".chart")
+                 .attr("width", width + margin.left + margin.right)
+                 .attr("height", height + margin.top + margin.bottom)
+                 .append("g")
+                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
              // gemerate amd display barchart data
-             d3.csv("data/worlddata5.csv", function(error, data) {
-             if (error) throw error;
+             d3.csv("data/worlddata.csv", function(error, data) {
+               if (error) throw error;
+               console.log("Oscar, go fuck yourself")
+               console.log(data)
+               data.forEach(function(d) {
+                 d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""];
+               })
+               x.domain(data.map(function(d) { return d["Attribute"]; }));
+               y.domain([0, d3.max(data, function(d) { return d["" + Globalname.trim("") + ""]; })]);
+
+               chart.append("g")
+                   .attr("class", "x axis")
+                   .attr("transform", "translate(0," + height + ")")
+                   .attr("transform", "rotate(-90)")
+                   .call(xAxis);
+
+               chart.append("g")
+                   .attr("class", "y axis")
+                   .call(yAxis);
+
+                // appends a y-axis title
+               chart.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("x", -height / 2)
+                    .attr("y", -28)
+                    .style("text-anchor", "middle")
+                    .text("Percentage of the population");
+
+               // adds a variety of attributes to the bars
+               // x,y give positions, height width give height and width
+               // mouseovers and mouseout add interactivity in the form of
+               // mouseover data
+               chart.selectAll(".bar")
+                   .data(data)
+                   .enter().append("rect")
+                   .attr("class", "bar")
+                   .attr("x", function(d) { return x(d["Attributes"]); })
+                   .attr("y", function(d) { return y(d["" + Globalname.trim("") + ""]); })
+                   .attr("height", function(d) { return height - y(d["" + Globalname.trim("") + ""]); })
+                   .attr("width", x.rangeBand())
             });
-                console.log(data);
-            })
+          })
 
          .await(ready)
 
