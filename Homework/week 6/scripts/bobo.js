@@ -1,4 +1,5 @@
 function lambda() {
+    Country = Default
      queue()
         .defer(function worldmap() {
              d3.select(window).on("resize", throttle);
