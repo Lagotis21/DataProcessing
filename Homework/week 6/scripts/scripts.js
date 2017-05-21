@@ -1,3 +1,7 @@
+// Troy C. Breijaert
+// studentnummer: 11587407
+// Some country names differ slightly atm causing it to bug out sometimes
+
 Globalname = "Default"
 function lambda() {
      queue()
@@ -79,6 +83,8 @@ function lambda() {
                  tooltip.classed("hidden", false)
                    .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
                    .html(d.properties.name);
+                Globalname = d.properties.name;
+                UpdateBarchart()
                })
 
                .on("mouseout",  function(d,i) {
@@ -134,7 +140,7 @@ function lambda() {
 
          .defer(function drawbarchart() {
              // determins margins of the field
-             var margin = {top: 20, right: 50, bottom: 500, left: 40},
+             var margin = {top: 40, right: 50, bottom: 500, left: 40},
                  width = 1000 - margin.left - margin.right,
                  height = 1000 - margin.top - margin.bottom;
 
@@ -163,26 +169,33 @@ function lambda() {
                  .append("g")
                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
              // gemerate amd display barchart data
-             d3.csv("data/worlddata.csv", function(error, data) {
+             d3.csv("data/worlddata5.csv", function(error, data) {
                if (error) throw error;
-               console.log("Oscar, go fuck yourself")
-               console.log(data)
+               // parses from string to float
                data.forEach(function(d) {
-                 d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""];
-               })
+                 d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""]
+               });
+
+               // x/y domains
                x.domain(data.map(function(d) { return d["Attribute"]; }));
                y.domain([0, d3.max(data, function(d) { return d["" + Globalname.trim("") + ""]; })]);
 
+               // appends x-axis
                chart.append("g")
-                   .attr("class", "x axis")
+                   .attr("class", "xaxis")
                    .attr("transform", "translate(0," + height + ")")
-                   .attr("transform", "rotate(-90)")
-                   .call(xAxis);
+                   .call(xAxis)
+                   .selectAll("text")
+                   .attr("y", 0)
+                   .attr("x", 9)
+                   .attr("dy", ".35em")
+                   .attr("transform", "rotate(90)")
+                   .style("text-anchor", "start");
 
+                // appends y axis
                chart.append("g")
-                   .attr("class", "y axis")
+                   .attr("class", "yaxis")
                    .call(yAxis);
 
                 // appends a y-axis title
@@ -193,24 +206,104 @@ function lambda() {
                     .style("text-anchor", "middle")
                     .text("Percentage of the population");
 
-               // adds a variety of attributes to the bars
-               // x,y give positions, height width give height and width
-               // mouseovers and mouseout add interactivity in the form of
-               // mouseover data
+                // creates the bars
                chart.selectAll(".bar")
                    .data(data)
                    .enter().append("rect")
                    .attr("class", "bar")
-                   .attr("x", function(d) { return x(d["Attributes"]); })
+                   .attr("x", function(d) { return x(d["Attribute"]); })
                    .attr("y", function(d) { return y(d["" + Globalname.trim("") + ""]); })
                    .attr("height", function(d) { return height - y(d["" + Globalname.trim("") + ""]); })
                    .attr("width", x.rangeBand())
+
+                   // ["" + Globalname.trim("") + ""]
             });
           })
 
          .await(ready)
 
     function ready(error){
-        console.log("Jello")
+        console.log("Ready captain!")
     }
+}
+
+function UpdateBarchart(){
+  // determins margins of the field
+  var margin = {top: 40, right: 50, bottom: 500, left: 40},
+      width = 1000 - margin.left - margin.right,
+      height = 1000 - margin.top - margin.bottom;
+
+  // smakes x-axis scaleable (remove .1 and you get one blob)
+  var x = d3.scale.ordinal()
+      .rangeRoundBands([0, width], .1);
+
+  // makes y axis scaleable
+  var y = d3.scale.linear()
+      .range([height, 0]);
+
+  // scales x axis
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  // scales y axis
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+  // attributes for a toolsip and what to display
+  var tip = d3.tip()
+      .attr("class", "d3-tip")
+      .offset([-10, 0])
+      .html(function(d){
+          return "<strong>something that doesn work yet:</strong> <span>" + d["" + Globalname.trim("") + ""] + "</span>";
+      })
+
+  // gemerate amd display barchart data
+  d3.csv("data/worlddata5.csv", function(error, data) {
+    if (error) throw error;
+
+    // parses as from string to float
+    data.forEach(function(d) {
+      d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""]
+    });
+
+    // x and y domains
+    x.domain(data.map(function(d) { return d["Attribute"]; }));
+    y.domain([0, d3.max(data, function(d) { return d["" + Globalname.trim("") + ""]; })]);
+
+    // selects the chart
+    var svg = d3.select(".chart").transition();
+
+    // rescales x-axis
+    svg.select(".x.axis")
+        .duration(750)
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start");
+
+    // rescales y
+    svg.select(".y.axis")
+        .duration(750)
+        .call(yAxis);
+
+    // overwrites and creates a new bar
+    svg.selectAll(".bar")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d["Attribute"]); })
+      .attr("y", function(d) { return y(d["" + Globalname.trim("") + ""]); })
+      .attr("height", function(d) { return height - y(d["" + Globalname.trim("") + ""]); })
+      .attr("width", x.rangeBand())
+      //.on('mouseover', function(d){
+        //  tip.show(d);
+      //})
+      //.on("mouseout", function(d){
+        //  tip.hide(d);
+      //});
+    })
 }
