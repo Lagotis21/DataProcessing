@@ -3,6 +3,11 @@
 // Some country names differ slightly atm causing it to bug out sometimes
 
 Globalname = "Default"
+function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+}
+
 function lambda() {
      queue()
         .defer(function worldmap() {
@@ -83,10 +88,11 @@ function lambda() {
                  tooltip.classed("hidden", false)
                    .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
                    .html(d.properties.name);
-                Globalname = d.properties.name;
-                UpdateBarchart()
                })
-
+               .on("click", function(d){
+                 Globalname = d.properties.name;
+                 UpdateBarchart()
+               })
                .on("mouseout",  function(d,i) {
                  tooltip.classed("hidden", true);
                });
@@ -140,9 +146,9 @@ function lambda() {
 
          .defer(function drawbarchart() {
              // determins margins of the field
-             var margin = {top: 40, right: 50, bottom: 500, left: 40},
-                 width = 1000 - margin.left - margin.right,
-                 height = 1000 - margin.top - margin.bottom;
+             var margin = {top: 40, right: 50, bottom: 100, left: 40},
+                 width = 960 - margin.left - margin.right,
+                 height = 500 - margin.top - margin.bottom;
 
              // smakes x-axis scaleable (remove .1 and you get one blob)
              var x = d3.scale.ordinal()
@@ -169,11 +175,20 @@ function lambda() {
                  .append("g")
                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+             // attributes for a toolsip and what to display
+             var tip = d3.tip()
+                 .attr("class", "d3-tip")
+                 .offset([-10, 0])
+                 .html(function(d){
+                     return "<span>" + round(d["" + Globalname.trim("") + ""]) +"</span>";
+                 })
+
+             chart.call(tip)
+
              // gemerate amd display barchart data
              d3.csv("data/worlddata.csv", function(error, data) {
                if (error) throw error;
                // parses from string to float
-               console.log(data)
                data.forEach(function(d) {
                  d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""]
                });
@@ -188,11 +203,8 @@ function lambda() {
                    .attr("transform", "translate(0," + height + ")")
                    .call(xAxis)
                    .selectAll("text")
-                   .attr("y", 0)
-                   .attr("x", 9)
-                   .attr("dy", ".35em")
-                   .attr("transform", "rotate(90)")
-                   .style("text-anchor", "start");
+                   .call(wrap, x.rangeBand())
+
 
                 // appends y axis
                chart.append("g")
@@ -216,8 +228,15 @@ function lambda() {
                    .attr("y", function(d) { return y(d["" + Globalname.trim("") + ""]); })
                    .attr("height", function(d) { return height - y(d["" + Globalname.trim("") + ""]); })
                    .attr("width", x.rangeBand())
-
-                   // ["" + Globalname.trim("") + ""]
+                   .style("fill", "DeepSkyBlue")
+                   .on('mouseover', function(d){
+                       tip.show(d);
+                       d3.select(this).attr("r", 10).style("fill", "orange");
+                   })
+                   .on("mouseout", function(d){
+                       tip.hide(d);
+                       d3.select(this).attr("r", 10).style("fill", "DeepSkyBlue");
+                   });
             });
           })
 
@@ -230,9 +249,9 @@ function lambda() {
 
 function UpdateBarchart(){
   // determins margins of the field
-  var margin = {top: 40, right: 50, bottom: 500, left: 40},
-      width = 1000 - margin.left - margin.right,
-      height = 1000 - margin.top - margin.bottom;
+  var margin = {top: 40, right: 50, bottom: 100, left: 40},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
 
   // smakes x-axis scaleable (remove .1 and you get one blob)
   var x = d3.scale.ordinal()
@@ -252,18 +271,9 @@ function UpdateBarchart(){
       .scale(y)
       .orient("left");
 
-  // attributes for a toolsip and what to display
-  var tip = d3.tip()
-      .attr("class", "d3-tip")
-      .offset([-10, 0])
-      .html(function(d){
-          return "<strong>something that doesn work yet:</strong> <span>" + d["" + Globalname.trim("") + ""] + "</span>";
-      })
-
   // gemerate amd display barchart data
   d3.csv("data/worlddata.csv", function(error, data) {
     if (error) throw error;
-    console.log(data)
     // parses as from string to float
     data.forEach(function(d) {
       d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""]
@@ -299,12 +309,29 @@ function UpdateBarchart(){
       .attr("x", function(d) { return x(d["Attribute"]); })
       .attr("y", function(d) { return y(d["" + Globalname.trim("") + ""]); })
       .attr("height", function(d) { return height - y(d["" + Globalname.trim("") + ""]); })
-      .attr("width", x.rangeBand())
-      //.on('mouseover', function(d){
-        //  tip.show(d);
-      //})
-      //.on("mouseout", function(d){
-        //  tip.hide(d);
-      //});
+      .attr("width", x.rangeBand());
     })
+}
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
 }
