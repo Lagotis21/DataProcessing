@@ -170,9 +170,10 @@ function lambda() {
                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
              // gemerate amd display barchart data
-             d3.csv("data/worlddata5.csv", function(error, data) {
+             d3.csv("data/worlddata.csv", function(error, data) {
                if (error) throw error;
                // parses from string to float
+               console.log(data)
                data.forEach(function(d) {
                  d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""]
                });
@@ -260,9 +261,9 @@ function UpdateBarchart(){
       })
 
   // gemerate amd display barchart data
-  d3.csv("data/worlddata5.csv", function(error, data) {
+  d3.csv("data/worlddata.csv", function(error, data) {
     if (error) throw error;
-
+    console.log(data)
     // parses as from string to float
     data.forEach(function(d) {
       d["" + Globalname.trim("") + ""] = +d["" + Globalname.trim("") + ""]
