@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport">
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
         <script src="scripts/d3.min.js"></script>
         <script src="https://d3js.org/queue.v1.min.js"></script>
@@ -14,10 +14,17 @@
     <body>
         <p> <aside>  Troy. C Breijaert | Studentnummer: 11587407 </aside>
         <aside> data source: <a href="http://data.worldbank.org" target="_blank" title= "worldbank" > data.worldbank.org</a> </aside>
-        <aside> Where data was unavailable for that year the last known data was used </aside>
-        <div id="container"></div>
-        <div id="container2">
-          <svg class ="chart" width="960" height="500"></svg>
+        <aside> Where data was unavailable a zero is used instead </aside>
+          <div class="container-fluid" id="container">
+            <div class="row">
+              <div class="col-sm-6">
+                <svg class="worldmap" width=20% length=40%></svg>
+              </div>
+              <div class="col-sm-6">
+                <svg class="chart" width=40% length=40%></svg>
+              </div>
+            </div>
+          </div>
         </div>
     </body>
 </html>

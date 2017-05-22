@@ -18,7 +18,7 @@ function lambda() {
                .on("zoom", move);
 
 
-             var width = document.getElementById('container').offsetWidth;
+             var width = (document.getElementById('container').offsetWidth) / 2;
              var height = width / 2;
 
              var topo,projection,path,svg,g;
@@ -36,7 +36,7 @@ function lambda() {
 
                path = d3.geo.path().projection(projection);
 
-               svg = d3.select("#container").append("svg")
+               svg = d3.select(".worldmap")//#container").append("svg")
                .attr("width", width)
                .attr("height", height)
                .call(zoom)
@@ -147,8 +147,8 @@ function lambda() {
          .defer(function drawbarchart() {
              // determins margins of the field
              var margin = {top: 40, right: 50, bottom: 100, left: 40},
-                 width = 960 - margin.left - margin.right,
-                 height = 500 - margin.top - margin.bottom;
+                 width = (document.getElementById('container').offsetWidth / 2) - margin.left - margin.right,
+                 height = (width / 1.5)  - margin.top - margin.bottom;
 
              // smakes x-axis scaleable (remove .1 and you get one blob)
              var x = d3.scale.ordinal()
@@ -180,7 +180,7 @@ function lambda() {
                  .attr("class", "d3-tip")
                  .offset([-10, 0])
                  .html(function(d){
-                     return "<span>" + round(d["" + Globalname.trim("") + ""]) +"</span>";
+                     return "<span>" + Globalname + ": " + round(d["" + Globalname.trim("") + ""]) +"</span>";
                  })
 
              chart.call(tip)
@@ -250,8 +250,8 @@ function lambda() {
 function UpdateBarchart(){
   // determins margins of the field
   var margin = {top: 40, right: 50, bottom: 100, left: 40},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      width = (document.getElementById('container').offsetWidth / 2) - margin.left - margin.right,
+      height = (width / 1.5)  - margin.top - margin.bottom;
 
   // smakes x-axis scaleable (remove .1 and you get one blob)
   var x = d3.scale.ordinal()
