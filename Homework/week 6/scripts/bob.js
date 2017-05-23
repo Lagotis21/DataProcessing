@@ -12,7 +12,7 @@ function drawcharts() {
     // determins margins of the field
     var margin = {top: 40, right: 50, bottom: 100, left: 40},
         width = (document.getElementById('container').offsetWidth / 2) - margin.left - margin.right,
-        height = width - margin.top - margin.bottom;
+        height = (width / 1.3) - margin.top - margin.bottom;
 
     // smakes x-axis scaleable (remove .1 and you get one blob)
     var x = d3.scale.ordinal()
