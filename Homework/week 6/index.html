@@ -4,10 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport">
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-        <script src="scripts/d3.min.js"></script>
-        <script src="scripts/topojson.v1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="library/d3.min.js"></script>
+        <script src="library/topojson.v1.min.js"></script>
         <script src="https://d3js.org/queue.v1.min.js"></script>
-        <script src="scripts/d3-tip_index.js"></script>
+        <script src="library/d3-tip_index.js"></script>
         <script src="scripts/bob.js"></script>
         <script> window.onload = drawcharts </script>
     </head>
@@ -17,77 +19,90 @@
         <h3>Such as: electricity, improved sanitation and access to clean drinking water <h3>
       </div>
       <p align="middle">  Troy. C Breijaert | Studentnummer: 11587407 </p>
-          <div class="container-fluid" id="container">
-            <div class="row">
-              <div class="col-sm-6">
-                <svg class="worldmap" width=50% length=50%></svg>
-              </div>
-              <div class="col-sm-6">
-                <svg class="chart" width=50% length=50%></svg>
-              </div>
-            </div>
+      <button type="submit" onClick='choose("Aruba")'>Aruba</button>
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Select Country
+        <span class="caret"></span>
+      </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+          <button type="submit" class="btm btm-default" onClick='choose("Aruba")'>Aruba</button>
+          <li role="presentation"><a role="menuitem" href="#">CSS</a></li>
+          <li role="presentation"><a role="menuitem" href="#">JavaScript</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" href="#">About Us</a></li>
+        </ul>
+      </div>
+      <div class="container-fluid" id="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <svg class="worldmap" width=50% length=50%></svg>
           </div>
-          <div class="container-fluid" id="textbox">
-            <div class="row">
-              <div class="col-sm-6" id="worldmap explanation">
-                The worldmap is based on data obtained from the
-                <a href="https://github.com/topojson/topojson/wiki" target="_blank" title="github.com/Topojson"> Topojson library</a>,
-                 the colours themselves are meaningless, they were chosen so as to not have
-                 two similarly coloured countries adjacent to one another. That being said when you click
-                on any location on the worldmap it'll update the adjacent barchart to give you
-                an indication of some of the basic neccesities available in that country.
-                (other functionalities include moving and zooming)
-              </div>
-              <div class="col-sm-6" id="barchart explanation">
-                The data about basic life neccesities in countries were obtained from the
-                <a href="http://databank.worldbank.org/data/home.aspx" target="_blank" title="databank.worldbank.org">the world bank's databank</a>
-                the datasets chosen were based on a personal opinion as to what are decent basic indicators
-                for the quality of life in a given country, urban vs rural.
-                The default setting is the global average, indicated as "default"
-              </div>
-            </div>
+          <div class="col-sm-6">
+            <svg class="chart" width=50% length=50%></svg>
           </div>
-          <p></p>
-          <div class="container-fluid" id="storybox">
-            <div class="row">
-              <div class="col-sm-12" id="storyintro">
-                <h2 align="middle"> The Story </h2>
-                Across the globe people have varying degrees of access to the basic neccesities to live a relative comfortable life, electricity,
-                drinkable water and improved sanitation. It is my belief that this is one of the major
-                inscentives for people to emigrate to the western world from areas like sub-Saharan Africa.
-              </div>
-            </div>
-            <p></p>
-            <div class="row">
-              <div class="col-sm-12" id="story">
-                For instance when one compares Western Europe to Eastern Europe there are little
-                differences when it comes to access to electricity, water or sanitation.
-                But when you compare rural Europe to rural Africa for example the differences are
-                astonishing.
-              </div>
-            </div>
-            <p></p>
-            <div class="row">
-              <div class="col-sm-12" id="story2">
-                Compare for instance France to Lesotho (situated within the borders of South Africa).
-                France has a tremendously high GDP compared to Lesotho, which is quite a the incentive
-                for people to want to emmigrate from sub-saharan africa to Europe, but more importantly
-                the difference in basic neccesities to life a relatively comfortable life is simply astonishing.
-                In France more than 95% of the population has access to electricity, improved sanitation and improved water sources.
-                Compare that to Lesotho where only 82% of the population has access to an improved water source,
-                or 28% of the population has access to electricity.
-              </div>
-            </div>
-            <p></p>
-            <div class="row">
-              <div class="col-sm-12" id="storyend">
-                <h3>This is a story that repeats itself all across Africa and many other parts of the globe</h3>
-                Take war and general instability out of the equation, is it any wonder why so many
-                people would want to emigrate to the western world? where the standards of living are higher and
-                everyone has access to ample clean, drinkable water, electricty and basic santitation.
-                <p>What do you think?</p>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div class="container-fluid" id="textbox">
+        <div class="row">
+          <div class="col-sm-6" id="worldmap explanation">
+            The worldmap is based on data obtained from the
+            <a href="https://github.com/topojson/topojson/wiki" target="_blank" title="github.com/Topojson"> Topojson library</a>,
+             the colours themselves are meaningless, they were chosen so as to not have
+             two similarly coloured countries adjacent to one another. That being said when you click
+            on any location on the worldmap it'll update the adjacent barchart to give you
+            an indication of some of the basic neccesities available in that country.
+            (other functionalities include moving and zooming)
           </div>
+          <div class="col-sm-6" id="barchart explanation">
+            The data about basic life neccesities in countries were obtained from the
+            <a href="http://databank.worldbank.org/data/home.aspx" target="_blank" title="databank.worldbank.org">the world bank's databank</a>
+            the datasets chosen were based on a personal opinion as to what are decent basic indicators
+            for the quality of life in a given country, urban vs rural.
+            The default setting is the global average, indicated as "default"
+          </div>
+        </div>
+      </div>
+      <p></p>
+      <div class="container-fluid" id="storybox">
+        <div class="row">
+          <div class="col-sm-12" id="storyintro">
+            <h2 align="middle"> The Story </h2>
+            Across the globe people have varying degrees of access to the basic neccesities to live a relative comfortable life, electricity,
+            drinkable water and improved sanitation. It is my belief that this is one of the major
+            inscentives for people to emigrate to the western world from areas like sub-Saharan Africa.
+          </div>
+        </div>
+        <p></p>
+        <div class="row">
+          <div class="col-sm-12" id="story">
+            For instance when one compares Western Europe to Eastern Europe there are little
+            differences when it comes to access to electricity, water or sanitation.
+            But when you compare rural Europe to rural Africa for example the differences are
+            astonishing.
+          </div>
+        </div>
+        <p></p>
+        <div class="row">
+          <div class="col-sm-12" id="story2">
+            Compare for instance France to Lesotho (situated within the borders of South Africa).
+            France has a tremendously high GDP compared to Lesotho, which is quite a the incentive
+            for people to want to emmigrate from sub-saharan africa to Europe, but more importantly
+            the difference in basic neccesities to life a relatively comfortable life is simply astonishing.
+            In France more than 95% of the population has access to electricity, improved sanitation and improved water sources.
+            Compare that to Lesotho where only 82% of the population has access to an improved water source,
+            or 28% of the population has access to electricity.
+          </div>
+        </div>
+        <p></p>
+        <div class="row">
+          <div class="col-sm-12" id="storyend">
+            <h3>This is a story that repeats itself all across Africa and many other parts of the globe</h3>
+            Take war and general instability out of the equation, is it any wonder why so many
+            people would want to emigrate to the western world? where the standards of living are higher and
+            everyone has access to ample clean, drinkable water, electricty and basic santitation.
+            <p>What do you think?</p>
+          </div>
+        </div>
+      </div>
     </body>
 </html>
