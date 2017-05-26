@@ -10,7 +10,7 @@
         <script src="library/topojson.v1.min.js"></script>
         <script src="https://d3js.org/queue.v1.min.js"></script>
         <script src="library/d3-tip_index.js"></script>
-        <script src="scripts/bob.js"></script>
+        <script src="scripts/scripts.js"></script>
         <script> window.onload = drawcharts </script>
     </head>
     <body>
@@ -19,19 +19,9 @@
         <h3>Such as: electricity, improved sanitation and access to clean drinking water <h3>
       </div>
       <p align="middle">  Troy. C Breijaert | Studentnummer: 11587407 </p>
-      <button type="submit" onClick='choose("Aruba")'>Aruba</button>
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Select Country
-        <span class="caret"></span>
-      </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-          <button type="submit" class="btm btm-default" onClick='choose("Aruba")'>Aruba</button>
-          <li role="presentation"><a role="menuitem" href="#">CSS</a></li>
-          <li role="presentation"><a role="menuitem" href="#">JavaScript</a></li>
-          <li role="presentation" class="divider"></li>
-          <li role="presentation"><a role="menuitem" href="#">About Us</a></li>
-        </ul>
-      </div>
+      <select class="countryselect" id="countryselection">
+    </select>
+  </div>
       <div class="container-fluid" id="container">
         <div class="row">
           <div class="col-sm-6">
@@ -67,42 +57,51 @@
         <div class="row">
           <div class="col-sm-12" id="storyintro">
             <h2 align="middle"> The Story </h2>
-            Across the globe people have varying degrees of access to the basic neccesities to live a relative comfortable life, electricity,
-            drinkable water and improved sanitation. It is my belief that this is one of the major
-            inscentives for people to emigrate to the western world from areas like sub-Saharan Africa.
+            Across the globe people have varying degrees of access to the basic neccesities to
+            live a relatively comfortable life. These are: access to electricity,
+            drinkable water and improved sanitation. It is part my belief that the lack of these basic
+            neccessities form part of the reason why theres a large influx
+            of people coming from areas like sub-Saharan Africa and countries like
+            Afghanistan and Pakistan, to the Western World and more specifically Europe.
           </div>
         </div>
         <p></p>
         <div class="row">
           <div class="col-sm-12" id="story">
-            For instance when one compares Western Europe to Eastern Europe there are little
-            differences when it comes to access to electricity, water or sanitation.
-            But when you compare rural Europe to rural Africa for example the differences are
-            astonishing.
+            For instance when one goes to compare Western Europe to rural Africa for example,
+            the differences are simply astonishing. The luxaries and neccessities we take for granted
+            here in the Europe and most of the globe, are largly absent in rural Africa
+            or even urban Africe.
           </div>
         </div>
         <p></p>
         <div class="row">
           <div class="col-sm-12" id="story2">
-            Compare for instance France to Lesotho (situated within the borders of South Africa).
-            France has a tremendously high GDP compared to Lesotho, which is quite a the incentive
-            for people to want to emmigrate from sub-saharan africa to Europe, but more importantly
-            the difference in basic neccesities to life a relatively comfortable life is simply astonishing.
-            In France more than 95% of the population has access to electricity, improved sanitation and improved water sources.
-            Compare that to Lesotho where only 82% of the population has access to an improved water source,
-            or 28% of the population has access to electricity.
+            Compare for instance France to Mali.
+            France has a tremendously high GDP compared to Mali, which is its own is already
+            quite the economic incentive for people to want to emmigrate from
+            Mali to Europe. But more importantly the difference in basic neccesities
+            to life a relatively comfortable life is simply astonishing. In France more
+            than 95% of the population (urban and rural) has access to electricity, improved sanitation
+            and improved water sources.Compare that to Mali where only 77% of the
+            population has access to an improved water source
+            (64% of the rural population, 97% of the urban population),
+            or 27% of the population has access to electricity (51% urban vs 12% rural).
           </div>
         </div>
         <p></p>
         <div class="row">
           <div class="col-sm-12" id="storyend">
-            <h3>This is a story that repeats itself all across Africa and many other parts of the globe</h3>
+            <h4>This is a story that repeats itself all across Africa and many other parts of the globe.</h4>
             Take war and general instability out of the equation, is it any wonder why so many
             people would want to emigrate to the western world? where the standards of living are higher and
             everyone has access to ample clean, drinkable water, electricty and basic santitation.
-            <p>What do you think?</p>
+            <p>What is your opinion on this?</p>
           </div>
         </div>
       </div>
     </body>
+    <!---
+    Bloody bootstrap dropdown menu is a pain in the bum.
+    -->
 </html>
